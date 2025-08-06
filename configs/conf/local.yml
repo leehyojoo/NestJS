@@ -7,3 +7,9 @@ db:
   username: 'root'
   password: '1234'
   database: 'myboard'
+
+auth:
+  jwt:
+    secret: "nest-test1234"
+    signOptions:
+      expiresIn: 3600  # 토큰 만료 시간 (초 단위)

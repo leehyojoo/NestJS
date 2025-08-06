@@ -55,9 +55,12 @@ export class UserService {
 
     /**
      * ## 이메일로 특정 사용자를 조회
+     * @param email 조회할 사용자의 이메일
+     * @returns 해당 이메일을 가진 사용자 객체 또는 null
+     * @throws {NotFoundException} 해당 이메일의 사용자가 없을 경우
      */
     async findOneUserByEmail(email: string): Promise<User | null> {
-        return await this.userRepository.findOne({ where: { email } });
+        return await this.userRepository.findOne({ where: { email: email } });
     }
 
     /**

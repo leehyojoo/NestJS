@@ -16,6 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from 'configs/configuration';
 import { MysqlService } from 'configs/mysql/mysql.service';
 import { UserModule } from './services/user/user.module';
+import { AuthModule } from './services/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,7 +29,10 @@ import { UserModule } from './services/user/user.module';
       useClass: MysqlService,
    }),
      // 사용자 모듈을 임포트하여 사용자 관련 기능을 포함
-     UserModule    
+     UserModule,
+    // 인증 모듈을 임포트하여 사용자 인증 관련 기능을 포함
+    // AuthModule은 사용자 인증 서비스와 컨트롤러를 포함
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
