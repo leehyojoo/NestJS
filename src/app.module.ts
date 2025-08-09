@@ -17,6 +17,7 @@ import configuration from 'configs/configuration';
 import { MysqlService } from 'configs/mysql/mysql.service';
 import { UserModule } from './services/user/user.module';
 import { AuthModule } from './services/auth/auth.module';
+import { BoardModule } from './services/board/board.module';
 
 @Module({
   imports: [
@@ -32,7 +33,10 @@ import { AuthModule } from './services/auth/auth.module';
      UserModule,
     // 인증 모듈을 임포트하여 사용자 인증 관련 기능을 포함
     // AuthModule은 사용자 인증 서비스와 컨트롤러를 포함
-    AuthModule
+    AuthModule,
+    // 게시판 모듈을 임포트하여 게시판 관련 기능을 포함
+    // BoardModule은 게시판 글 작성, 수정, 삭제 등의 기능을 제공
+    BoardModule
   ],
   controllers: [AppController],
   providers: [AppService],

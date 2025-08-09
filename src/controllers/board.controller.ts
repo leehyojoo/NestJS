@@ -5,7 +5,7 @@
  * 이 컨트롤러는 서비스 레이어를 호출하여 비즈니스 로직을 수행
 */
 
-import { Body, Controller, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post, UseGuards } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { BoardService } from "../services/board/board.service";
 import { CreateBoardDto } from "../models/dto/create-board.dto";
@@ -16,6 +16,7 @@ import { Board } from "src/models/entities/board.entity";
 import { User } from "src/models/entities/user.entity";
 import { AuthGuard } from "@nestjs/passport";
 import { Req } from "@nestjs/common/decorators/http/route-params.decorator";
+import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 
 
 @Controller('boards')
@@ -37,4 +38,31 @@ export class BoardController {
     async updateBoard(@Req() req: { user: User }, @Param('id') id: number, @Body() updateBoardDto: UpdateBoardDto): Promise<Board> {
         return await this.boardService.updateBoard(req.user, id, updateBoardDto);
     }
+
+    @ApiOperation({ description: '게시글 삭제' })
+    @ApiOkResponse({ description: '글 삭제 여부 조회', type: String })
+    @UseGuards(AuthGuard('jwt'))
+    @Delete(':id')
+    async deleteBoard(@Req() req: { user: User }, @Param('id') id: number): Promise<DeleteStatus> {
+        const status: DeleteStatus = await this.boardService.deleteBoard(req.user, id);
+        if (status === DeleteStatus.Fail) {
+            throw new NotFoundException('존재하지 않는 게시글입니다.');
+        }
+        return status;
+    }
+
+    @ApiOperation({ description: '게시판 글 단건 조회' })
+    @ApiOkResponse({ description: '게시글 조회', type: Board})
+    @Get(':id')
+    async findOneBoard(@Param('id') id: number): Promise<Board> {
+        return await this.boardService.findOneBoard(id);
+    }
+
+    @ApiOperation({ description: '게시판 목록 조회' })
+    @ApiOkResponse({ description: '게시글 목록 조회', type: [Board] })
+    @Get()
+    async findAllBoards(): Promise<Board[]> {
+        return await this.boardService.findAllBoards();
+    }
+
 }
