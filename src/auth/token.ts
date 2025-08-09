@@ -5,6 +5,6 @@
 */
 
 export class Token {
-    accessToken: string;
+    accessToken: string; // Authorization bearer token
     refreshToken: string;
 }
