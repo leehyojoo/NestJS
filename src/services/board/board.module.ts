@@ -7,7 +7,7 @@
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { JwtStrategy } from "src/auth/jwt.strategy";
+import { JwtStrategy } from "src/auth/jwt/jwt.strategy";
 import { BoardController } from "src/controllers/board.controller";
 import { Board } from "src/models/entities/board.entity";
 import { PassportModule } from "@nestjs/passport";

@@ -17,6 +17,7 @@ import { User } from "src/models/entities/user.entity";
 import { AuthGuard } from "@nestjs/passport";
 import { Req } from "@nestjs/common/decorators/http/route-params.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
+import { JwtAuthGuard } from "src/auth/jwt/jwt-auth.guard";
 
 
 @Controller('boards')
@@ -25,7 +26,7 @@ export class BoardController {
 
     @ApiOperation({ description: '게시판 글 작성' })
     @ApiOkResponse({ description: '생성된 게시글 조회', type: Board })
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(JwtAuthGuard)
     @Post('')
     async createBoard(@Req() req: { user: User }, @Body() createBoardDto: CreateBoardDto): Promise<Board> {
         return await this.boardService.createBoard(req.user, createBoardDto);
@@ -33,7 +34,7 @@ export class BoardController {
 
     @ApiOperation({ description: '게시판 글 수정' })
     @ApiOkResponse({ description: '수정된 게시글 조회', type: Board })
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
     async updateBoard(@Req() req: { user: User }, @Param('id') id: number, @Body() updateBoardDto: UpdateBoardDto): Promise<Board> {
         return await this.boardService.updateBoard(req.user, id, updateBoardDto);
@@ -41,7 +42,7 @@ export class BoardController {
 
     @ApiOperation({ description: '게시글 삭제' })
     @ApiOkResponse({ description: '글 삭제 여부 조회', type: String })
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteBoard(@Req() req: { user: User }, @Param('id') id: number): Promise<DeleteStatus> {
         const status: DeleteStatus = await this.boardService.deleteBoard(req.user, id);
