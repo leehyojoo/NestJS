@@ -2,11 +2,26 @@
 
 db:
   type: 'mysql'
-  host: 'localhost'
-  port: 3306
-  username: 'root'
-  password: '1234'
-  database: 'myboard'
+  replication:
+    master:
+      host: localhost
+      port: 3306
+      username: root
+      password: '1234'
+      database: myboard
+    slaves:
+      - host: localhost
+        port: 3306
+        username: root
+        password: '1234'
+        database: myboard
+      - host: localhost
+        port: 3306
+        username: root
+        password: '1234'
+        database: myboard
+  canRetry: true
+  selector: RR
 
 auth:
   jwt:
